@@ -1,9 +1,8 @@
-package lab5;
-
 import edu.msoe.taylor.audio.Note;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import javax.sound.sampled.LineUnavailableException;
 
@@ -21,8 +20,9 @@ public class Lab5 {
      * @param args Ignored
      */
     public static void main(String[] args) {
+        Guitar guitar = new Guitar();
+
         try(Scanner fileScan = new Scanner(new File("test.txt"))){
-            Guitar guitar = new Guitar();
             while(fileScan.hasNextLine()){
                 String line = fileScan.nextLine();
                 if(line.equals("")){
@@ -33,15 +33,22 @@ public class Lab5 {
                     System.err.println("There was an unsupported line in the file and it was ignored.");
                 }
             }
-            guitar.play();
-        }catch (FileNotFoundException e){
+        }catch (FileNotFoundException e) {
             System.err.println("The text file could not be found.");
-        } catch (LineUnavailableException e1){
-            System.err.println(e1.getMessage());
-        } catch (IOException e2){
-            System.err.println(e2.getMessage());
-        } catch (NullPointerException e3){
+        } catch (NullPointerException e1){
             System.err.println("A note was in the incorrect format in the file and produced a null note.");
+        } catch (IllegalArgumentException e2){
+            System.err.println(e2.getMessage());
+        } catch (NoSuchElementException e3){
+            System.err.println(e3.getMessage());
+        }
+
+        try{
+            guitar.play();
+        } catch (LineUnavailableException e){
+            System.err.println(e.getMessage());
+        } catch (IOException e1){
+            e1.getMessage();
         }
     }
     
@@ -52,14 +59,17 @@ public class Lab5 {
      * the note data correctly.
      */
     private static Note parseNote(String line) {
-        Note note = null;
-        Scanner noteScanner = new Scanner(line);
-        String spn = noteScanner.next();
-        Float duration = new Float(noteScanner.next());
+        Note note;
+        String spn = "";
         try{
+            Scanner noteScanner = new Scanner(line);
+            spn = noteScanner.next();
+            Float duration = new Float(noteScanner.next());
             note = new Note(spn,duration);
         } catch (IllegalArgumentException e){
-            System.err.println(e.getMessage());
+            throw new IllegalArgumentException("The input: " + spn + " is not recognized as a valid note");
+        } catch (NoSuchElementException e1){
+            throw new NoSuchElementException("The line \"" + line + "\" was not a valid input and was ignored");
         }
         return note;
     }

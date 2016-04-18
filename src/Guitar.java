@@ -1,10 +1,7 @@
-package lab5;
-
 import edu.msoe.taylor.audio.SimpleAudio;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.List;
