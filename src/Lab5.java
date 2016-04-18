@@ -1,3 +1,11 @@
+/*
+ * CS2852 - 041
+ * Spring 2016
+ * Lab 5
+ * Name: Ian Guswiler
+ * Created: 4/12/2016
+ */
+
 import edu.msoe.taylor.audio.Note;
 import java.io.File;
 import java.io.FileNotFoundException;
