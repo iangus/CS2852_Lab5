@@ -94,4 +94,3 @@ public class Lab5 {
         return isAccepted;
     }
 }
-// fuck this shit
